@@ -9,6 +9,7 @@ const path = require("path");
 
 exports.login = async (req, res) => {
   try {
+    console.log('loign')
     const email = req.body.email;
     const password = req.body.password;
 
@@ -29,7 +30,7 @@ exports.login = async (req, res) => {
 
     const user = rows[0];
     if (!bcrypt.compareSync(password, user.password)) {
-      return res.json({ status: false, error: "Şifre yanlış." });
+      return res.json({ status: false, error: "Şifre yanlış.",user:null });
     }
 
     const token = jwt.sign(
@@ -38,7 +39,7 @@ exports.login = async (req, res) => {
       { expiresIn: process.env.JWT_EXPIRES_IN || "1d" }
     );
 
-    res.json({ status: true, user:user, token: token });
+    res.json({ status: true, user: user, token: token });
   } catch (err) {
     res.status(500).json({ status: false, error: err.message });
   }
@@ -85,8 +86,6 @@ exports.register = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    
-   
     await db.query(
       "INSERT INTO users (name, email, city, password, created_at) VALUES (?, ?, ?,?, NOW())",
       [name, email, city, hashedPassword]

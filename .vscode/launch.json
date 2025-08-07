@@ -1,0 +1,13 @@
+// .vscode/launch.json
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Express App",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/app.js" // veya app.js, server.js hangisini kullanıyorsan
+    }
+  ]
+}
